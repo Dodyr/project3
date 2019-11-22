@@ -3,7 +3,8 @@
 #include<iomanip>
 
 
-int main() {
+int main()
+{
 
 	setlocale(LC_ALL, "rus");
 
@@ -14,87 +15,84 @@ int main() {
 	char isExit;
 
 
-	do {
+	do 
+	{
 
 
 
 		std::cout << "1. Сумма заданного количества слагаемых.\n";
 		std::cout << "2. Сумма с заданной точностью.\n";
-		std::cout << "3. Сумма с более высокой точностью.\n";
-		std::cout << "4. Точное значение.\n";
-		std::cout << "5. Завершить работы.\n";
+		std::cout << "3. Завершить работы.\n";
 
 
-		do {
+		do 
+		{
 			std::cout << "-> ";
 			std::cin >> choice;
-			if (!std::cin.good() || choice < 1 || choice > 5) {
-				std::cout << "Ошибка ввода. Значени должно быть от 1 до 5.\n"; // cin.good() - все хорошо; cin.fail() - все плохо
-				std::cin.clear(); // разблокировка потока.
-				std::cin.ignore(std::cin.rdbuf()->in_avail()); // вроде как чистим и удаляем введённое значение
+			if (!std::cin.good() || choice < 1 || choice > 3) 
+			{
+				std::cout << "Ошибка ввода. Значени должно быть от 1 до 3.\n";
+				std::cin.clear();
+				std::cin.ignore(std::cin.rdbuf()->in_avail());
 			}
 			else
 				isError = false;
 		} while (isError);
-		//—————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-		if (choice != 5) {
-
-			//--- ввод x ---
+		isError = true;
+		if (choice != 3)
+		{
 			std::cout << "Введите значение x: ";
-			do {
+			do
+			{
 				std::cin >> x;
-				if (!std::cin.good() || abs(x) < 1) {
-					std::cout << "Ошибка ввода. Значени должно быть от -1 до 1.\n"; // cin.good() - все хорошо; cin.fail() - все плохо
-					std::cin.clear(); // разблокировка потока.
-					std::cin.ignore(std::cin.rdbuf()->in_avail()); // вроде как чистим и удаляем введённое значение
+				if (!std::cin.good() || abs(x) > 1)
+				{
+					std::cout << "Ошибка ввода. Значени должно быть от -1 до 1.\n";
+					std::cin.clear();
+					std::cin.ignore(std::cin.rdbuf()->in_avail());
 				}
 				else
 					isError = false;
 			} while (isError);
-			switch (choice) {
-			case 1: {
-				int n;
-				std::cout << "Введите количество слагаемых N:";
-				std::cin >> n;
-				double s = 0, a = x;
-				for (int i = 0; i < n; i++) {
-					s += a;
-					a *= (i/(i+1))*((x*x)/(i*2-1));
+			switch (choice)
+			{
+			     case 1:
+		    	{
+			    	int n;
+			    	std::cout << "Введите количество слагаемых N:";
+			    	std::cin >> n;
+			    	double s = 0, a = x;
+			    	for (int i = 1; i <= 2 * n; i = i + 2)
+			    	{
+			    		s += a / (i + 2);
+			    		a *= i * x * x / (i + 1);
+			     	}
+			    	std::cout << "Сумма заданного количества слагаемых равна " << s << "\n";
+			    	break;
+			    }
+		    	case 2:
+				{
+					std::cout << "Введите точность: ";
+					std::cin >> eps;
+					double s = 0, a = x;
+					int i = 1;
+					while (fabs(a) >= eps)
+					{
+						s += a / (i + 2);
+						a *= i * x * x / (i + 1);
+						i = i + 2;
+					}
+					std::cout << "Точное значение равно " << s << "\n";
+					break;
 				}
-				std::cout << "Сумма заданного количества слагаемых раен " << s;
-				break;
-			};
-			case 2: {};
-			case 3: {
-
-				std::cout << "Введите точность: ";
-				std::cin >> eps;
-				if (choice == 1)
-					eps = eps / 10;
-				double s = 0, a = x;
-				int i = 0;
-				while (fabs(x) >= eps) {
-					s += a;
-					a *= ((2 * i + 1) * (2 * i + 1) * x * x / ((2 * i + 1) * (2 * i + 3)));
-					i++;
-				}
-				std::cout << "Точное значение равно " << s;
-
-				break;
-
-			};
-			case 4: {
-				std::cout << "Точное значение.\n";
-				break;
-			};
 			}
-
-			std::cout << "Завершить работу (Y|N)";
+		}
+		else
+		{
+			std::cout << "Завершить работу (Y|N)"<<"\n";
 			std::cin >> isExit;
 			if (isExit == 'Y' || isExit == 'y')
-				choice = 5;
+				choice = 4;
 		}
-
-	} while (choice != 5);
-
+	} while (choice != 4);
 }
