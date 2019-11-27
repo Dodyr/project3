@@ -31,7 +31,7 @@ int main()
 			std::cin >> choice;
 			if (!std::cin.good() || choice < 1 || choice > 3)
 			{
-				std::cout << "Ошибка ввода. Значени должно быть от 1 до 3.\n";
+				std::cout << "Ошибка ввода. Значение должно быть от 1 до 3.\n";
 				std::cin.clear();
 				std::cin.ignore(std::cin.rdbuf()->in_avail());
 			}
@@ -47,7 +47,7 @@ int main()
 				std::cin >> x;
 				if (!std::cin.good() || abs(x) >= 1)
 				{
-					std::cout << "Ошибка ввода. Значени должно быть от -1 до 1.\n";
+					std::cout << "Ошибка ввода. Значение должно быть от -1 до 1.\n";
 					std::cin.clear();
 					std::cin.ignore(std::cin.rdbuf()->in_avail());
 				}
@@ -61,13 +61,23 @@ int main()
 				int n;
 				std::cout << "Введите количество слагаемых N:";
 				std::cin >> n;
-				n = n - 2;
+				n -= 2;
 				double s = x, a = x;
-				for (int i = 0; i < n; i++)
+				if (n == -1)
 				{
-					a *= ((2 * i + 1) * x * x * (2 * i + 1)) / (2 * (i + 1) * (2 * i + 3));
-					s += a;
+					s = x;
 				}
+				else
+					if (n == -2)
+					{
+						s = 0;
+					}
+					else
+				        for (int i = 0; i <= n; i++)
+				        {
+					        a *= ((2 * i + 1) * x * x * (2 * i + 1)) / (2 * (i + 1) * (2 * i + 3));
+					        s += a;
+				        }
 				std::cout << "Сумма заданного количества слагаемых равна " << "\n                            " << s << "\n";
 				break;
 			}
@@ -75,6 +85,12 @@ int main()
 			{
 				std::cout << "Введите точность: ";
 				std::cin >> eps;
+				if (!std::cin.good() || eps <=0)
+				{
+					std::cout << "Ошибка ввода. Значение должно быть больше нуля.\n";
+					std::cin.clear();
+					std::cin.ignore(std::cin.rdbuf()->in_avail());
+				}
 				double s = x, a = x;
 				int i = 0;
 				do
@@ -82,10 +98,10 @@ int main()
 					a *= ((2 * i + 1) * x * x * (2 * i + 1)) / (2 * (i + 1) * (2 * i + 3));
 					s += a;
 					i++;
-				} while (abs(asin(x) - s) >= eps);
+				} while (abs(asin(x) - s) > eps);
 				std::cout << "Точное значение равно       " << asin(x) << "\n";
 				std::cout << "Приближенное значение равно " << s << "\n";
-				std::cout << "Количество слагамых         " << i + 2 << "\n";
+				std::cout << "Количество слагамых         " << i + 1 << "\n";
 				std::cout << "Точность                    " << eps << "\n";
 				eps = eps / 10;
 				i = 0;
@@ -96,9 +112,9 @@ int main()
 					a *= ((2 * i + 1) * x * x * (2 * i + 1)) / (2 * (i + 1) * (2 * i + 3));
 					s += a;
 					i++;
-				} while (abs(asin(x) - s) >= eps);
+				} while (abs(asin(x) - s) > eps);
 				std::cout << "Более точное значение равно " << s << "\n";
-				std::cout << "Количество слагамых         " << i + 2 << "\n";
+				std::cout << "Количество слагамых         " << i + 1 << "\n";
 				break;
 			}
 			}
